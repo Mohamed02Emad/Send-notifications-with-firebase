@@ -66,16 +66,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/et_message" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/btn_send"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/black"
-        android:layout_marginHorizontal="@dimen/horizontal_space"
-        android:gravity="center"
-        android:textSize="16sp"
-        android:text="notification will be sent to devices after 5 seconds from clicking the button"
-        />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,7 +12,9 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import com.mo_chatting.chatapp.data.models.NotificationData
 import com.mo_chatting.chatapp.data.models.PushNotification
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,7 +24,6 @@ class MainActivity : AppCompatActivity() {
         ActivityResultContracts.RequestPermission()
     ) { granted ->
         if (granted) {
-            //  Toast.makeText(this, "granted", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -37,12 +38,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun subscribeToTopic() {
         Firebase.messaging.subscribeToTopic(TOPIC_FOR_SUBSCRIPTION)
-            .addOnCompleteListener {
-                showToast("subscribed to topic successfully")
-            }
-            .addOnFailureListener {
-                showToast("failed to subscribe to topic")
-            }
     }
 
     private fun getPermissions() {
@@ -56,14 +51,19 @@ class MainActivity : AppCompatActivity() {
             val message = binding.etMessage.text.toString()
             val name = binding.etName.text.toString()
             if (message.isNotEmpty() && name.isNotEmpty()) {
-                   sendFireBaseNotification(PushNotification(NotificationData(name,message),TARGET_TOPIC))
+                sendFireBaseNotification(
+                    PushNotification(
+                        NotificationData(name, message),
+                        TARGET_TOPIC
+                    )
+                )
             } else {
                 showToast("field is empty")
             }
         }
     }
 
-    private fun showToast(message: String){
+    private fun showToast(message: String) {
         CoroutineScope(Dispatchers.Main).launch {
             Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT).show()
         }
